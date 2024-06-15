@@ -26,7 +26,9 @@
 	// Configure tool-specific properties. e.g. Extensions to add to the dev container.
 	"customizations": {
 		"vscode": {
-			"extensions": []
+			"extensions": [
+				"mhutchie.git-graph"
+			]
 		}
 	},
 
