@@ -22,6 +22,12 @@ sudo make install
 #### 起動
 EC2にログインして以下の手順を実行します
 
+環境変数を設定
+```
+export MULTICAST_ADDR=224.0.0.1
+export MULTICAST_PORT=2800
+```
+
 receiver01を起動
 ```
 nohup receiver --iface enX0 > /tmp/receiver01.log 2>&1 &
