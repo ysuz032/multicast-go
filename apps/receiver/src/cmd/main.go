@@ -11,6 +11,7 @@ func main() {
 	// 環境変数からアドレスとポートを取得
 	multicastAddr := os.Getenv("MULTICAST_ADDR")
 	multicastPort := os.Getenv("MULTICAST_PORT")
+	multicastIface := os.Getenv("MULTICAST_INTERFACE")
 
 	if multicastAddr == "" || multicastPort == "" {
 		fmt.Println("Not found MULTICAST_ADDR OR MULTICAST_PORT in environment variables")
@@ -24,7 +25,7 @@ func main() {
 	wg.Add(1)
 	go func() {
 		defer wg.Done()
-		receiver.ReceiveMulticast(multicastAddr, multicastPort)
+		receiver.ReceiveMulticast(multicastIface, multicastAddr, multicastPort)
 	}()
 
 	// 全てのゴルーチンの終了を待つ
