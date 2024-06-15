@@ -3,6 +3,7 @@ package receiver
 import (
 	"fmt"
 	"net"
+	"strconv"
 
 	"golang.org/x/net/ipv4"
 )
@@ -45,9 +46,16 @@ func ReceiveMulticast(multicastIface, multicastAddr, multicastPort string) {
 	// マルチキャストグループの設定
 	group := net.ParseIP(multicastAddr)
 
+	// UDPAddrに渡すためmulticastPortをint型にキャスト
+	imulticastPort, err := strconv.Atoi(multicastPort)
+	if err != nil {
+		fmt.Println("failed to cast multicastPort to integer:", err)
+		return
+	}
+
 	// UDPソケットの作成
-	addr := fmt.Sprintf("%s:%s", multicastAddr, multicastPort)
-	conn, err := net.ListenPacket("udp4", addr)
+	laddr := &net.UDPAddr{IP: group, Port: imulticastPort}
+	conn, err := net.ListenUDP("udp4", laddr)
 	if err != nil {
 		fmt.Println("failed to create socket:", err)
 		return
@@ -56,11 +64,11 @@ func ReceiveMulticast(multicastIface, multicastAddr, multicastPort string) {
 
 	// マルチキャストグループに参加
 	p := ipv4.NewPacketConn(conn)
-	if err := p.JoinGroup(iface, &net.UDPAddr{IP: group}); err != nil {
+	if err := p.JoinGroup(iface, laddr); err != nil {
 		fmt.Println("failed to join multicast group:", err)
 		return
 	}
-	defer p.LeaveGroup(iface, &net.UDPAddr{IP: group})
+	defer p.LeaveGroup(iface, laddr)
 
 	// アプリケーションは、カーネル内のプロトコルスタック間でパケットごとの制御メッセージの送信を設定することがあるため
 	// アプリケーションが受信パケットの宛先アドレスを必要とする場合、SetControlMessage of PacketConn を使用して制御メッセージの送信を有効にする
@@ -82,11 +90,9 @@ func ReceiveMulticast(multicastIface, multicastAddr, multicastPort string) {
 				fmt.Printf("received: %s from %s\n", string(buffer[:n]), src)
 			} else {
 				fmt.Printf("skipped: %s from %s\n", string(buffer[:n]), src)
-				continue
 			}
 		} else {
 			fmt.Printf("skipped: not multicast")
-			continue
 		}
 	}
 }
