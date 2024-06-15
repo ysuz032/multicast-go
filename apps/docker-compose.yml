@@ -1,0 +1,34 @@
+services:
+  sender:
+    build:
+      context: ./sender
+      dockerfile: Dockerfile
+    environment:
+      MULTICAST_ADDR: "224.0.0.1"
+      MULTICAST_PORT: "28000"
+    networks:
+      - multicast
+
+  receiver01:
+    build:
+      context: ./receiver
+      dockerfile: Dockerfile
+    environment:
+      MULTICAST_ADDR: "224.0.0.1"
+      MULTICAST_PORT: "28000"
+    networks:
+      - multicast
+
+  receiver02:
+    build:
+      context: ./receiver
+      dockerfile: Dockerfile
+    environment:
+      MULTICAST_ADDR: "224.0.0.1"
+      MULTICAST_PORT: "28000"
+    networks:
+      - multicast
+
+networks:
+  multicast:
+    driver: bridge
