@@ -31,4 +31,5 @@ services:
 
 networks:
   multicast:
+    name: multicast
     driver: bridge
