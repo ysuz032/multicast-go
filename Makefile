@@ -1,4 +1,25 @@
-.PHONY: up down logs build clean test-sender test-receiver fmt vet lint restart init status
+.PHONY: build build-sender build-receiver install install-sender install-receiver up down logs clean test-sender test-receiver fmt vet lint restart init status
+
+# Linux install command
+build: build-sender build-receiver
+
+build-sender:
+	@echo "Build sender application"
+	cd apps/sender/src && go build -o sender cmd/main.go
+
+build-receiver:
+	@echo "Build receiver application"
+	cd apps/receiver/src && go build -o receiver cmd/main.go
+
+install: install-sender install-receiver
+
+install-sender:
+	@echo "Install sender application to /usr/local/bin"
+	mv apps/sender/src/sender /usr/local/bin/sender
+
+install-receiver:
+	@echo "Install receiver application to /usr/local/bin"
+	mv apps/receiver/src/receiver /usr/local/bin/receiver
 
 # Docker Compose commands
 up:
@@ -12,10 +33,6 @@ down:
 logs:
 	@echo "Displaying logs..."
 	cd apps && docker-compose logs --follow --timestamps
-
-build:
-	@echo "Building the Docker images..."
-	cd apps && docker-compose build
 
 # Clean up dangling images and containers
 clean:
