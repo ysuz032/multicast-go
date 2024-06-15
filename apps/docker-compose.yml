@@ -28,6 +28,14 @@ services:
       MULTICAST_PORT: "28000"
     networks:
       - multicast
+  
+  # dubug:
+  #   build:
+  #     context: ./debug
+  #     dockerfile: Dockerfile
+  #   command: /bin/sh -c "tcpdump -nn -X port 28000"
+  #   networks:
+  #     - multicast
 
 networks:
   multicast:
