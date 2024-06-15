@@ -46,7 +46,7 @@ func ReceiveMulticast(multicastIface, multicastAddr, multicastPort string) {
 	group := net.ParseIP(multicastAddr)
 
 	// UDPソケットの作成
-	addr := fmt.Sprintf(":%s", multicastPort)
+	addr := fmt.Sprintf("%s:%s", multicastAddr, multicastPort)
 	conn, err := net.ListenPacket("udp4", addr)
 	if err != nil {
 		fmt.Println("failed to create socket:", err)
