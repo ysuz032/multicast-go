@@ -137,3 +137,30 @@ make up
 make logs
 ```
 以下のような送信ログ、受信ログが出ていればパケットの送受信ができています。
+```
+$ make logs
+Displaying logs...
+cd apps && docker-compose logs --follow --timestamps
+receiver01-1  | 2024-06-15T12:24:11.734769837Z use interface: eth0
+receiver01-1  | 2024-06-15T12:24:12.735776796Z received: message 1 from 172.19.0.2:54073
+receiver01-1  | 2024-06-15T12:24:13.741484380Z received: message 2 from 172.19.0.2:54073
+receiver01-1  | 2024-06-15T12:24:14.744401047Z received: message 3 from 172.19.0.2:54073
+sender-1      | 2024-06-15T12:24:11.734778212Z send successful: message 0
+sender-1      | 2024-06-15T12:24:12.735607088Z send successful: message 1
+receiver02-1  | 2024-06-15T12:24:11.734755587Z use interface: eth0
+receiver02-1  | 2024-06-15T12:24:12.735845379Z received: message 1 from 172.19.0.2:54073
+receiver02-1  | 2024-06-15T12:24:13.741370505Z received: message 2 from 172.19.0.2:54073
+receiver02-1  | 2024-06-15T12:24:14.744329797Z received: message 3 from 172.19.0.2:54073
+sender-1      | 2024-06-15T12:24:13.741369588Z send successful: message 2
+sender-1      | 2024-06-15T12:24:14.744384713Z send successful: message 3
+receiver02-1  | 2024-06-15T12:24:15.746861756Z received: message 4 from 172.19.0.2:54073
+receiver01-1  | 2024-06-15T12:24:15.746771297Z received: message 4 from 172.19.0.2:54073
+sender-1      | 2024-06-15T12:24:15.746719506Z send successful: message 4
+receiver02-1  | 2024-06-15T12:24:16.747986131Z received: message 5 from 172.19.0.2:54073
+receiver01-1  | 2024-06-15T12:24:16.747960839Z received: message 5 from 172.19.0.2:54073
+sender-1      | 2024-06-15T12:24:16.747850839Z send successful: message 5
+receiver01-1  | 2024-06-15T12:24:17.752045173Z received: message 6 from 172.19.0.2:54073
+sender-1      | 2024-06-15T12:24:17.752075507Z send successful: message 6
+receiver02-1  | 2024-06-15T12:24:17.752123840Z received: message 6 from 172.19.0.2:54073
+...
+```
