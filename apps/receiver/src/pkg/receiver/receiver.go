@@ -8,13 +8,13 @@ import (
 // ReceiveMulticast はマルチキャストメッセージを受信します
 func ReceiveMulticast(multicastAddr, multicastPort string) {
 	addr := fmt.Sprintf("%s:%s", multicastAddr, multicastPort)
-	udpAddr, err := net.ResolveUDPAddr("udp", addr)
+	udpAddr, err := net.ResolveUDPAddr("udp4", addr)
 	if err != nil {
 		fmt.Println("failed to resolve multicast address:", err)
 		return
 	}
 
-	conn, err := net.ListenMulticastUDP("udp", nil, udpAddr)
+	conn, err := net.ListenMulticastUDP("udp4", nil, udpAddr)
 	if err != nil {
 		fmt.Println("failed to create socket:", err)
 		return
